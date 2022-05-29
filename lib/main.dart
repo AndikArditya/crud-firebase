@@ -43,12 +43,12 @@ class MyHomePage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: const Text('CrudFirebase'),
+        title: const Text('Todo App'),
         centerTitle: true,
       ),
       body: StreamBuilder(
         // Reading Items form our Database Using the StreamBuilder widget
-        stream: db.collection('crudfirebase').snapshots(),
+        stream: db.collection('todos').snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -60,7 +60,7 @@ class MyHomePage extends StatelessWidget {
             itemBuilder: (context, int index) {
               DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
               return ListTile(
-                title: Text(documentSnapshot['firebase']),
+                title: Text(documentSnapshot['todo']),
                 onTap: () {
                   // Here We Will Add The Update Feature and passed the value 'true' to the is update
                   // feature.
@@ -77,10 +77,7 @@ class MyHomePage extends StatelessWidget {
                   ),
                   onPressed: () {
                     // Here We Will Add The Delete Feature
-                    db
-                        .collection('crudfirebase')
-                        .doc(documentSnapshot.id)
-                        .delete();
+                    db.collection('todos').doc(documentSnapshot.id).delete();
                   },
                 ),
               );
@@ -123,11 +120,11 @@ showBottomSheet(
             onPressed: () {
               // Check to see if isUpdate is true then update the value else add the value
               if (isUpdate) {
-                db.collection('crudfirebase').doc(documentSnapshot?.id).update({
-                  'firebase': value,
+                db.collection('todos').doc(documentSnapshot?.id).update({
+                  'todo': value,
                 });
               } else {
-                db.collection('crudfirebase').add({'firebase': value});
+                db.collection('todos').add({'todo': value});
               }
               Navigator.pop(context);
             },
