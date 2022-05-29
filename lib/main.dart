@@ -43,12 +43,12 @@ class MyHomePage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: const Text('Todo App'),
+        title: const Text('CrudFirebase'),
         centerTitle: true,
       ),
       body: StreamBuilder(
         // Reading Items form our Database Using the StreamBuilder widget
-        stream: db.collection('todos').snapshots(),
+        stream: db.collection('firebase').snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -60,7 +60,7 @@ class MyHomePage extends StatelessWidget {
             itemBuilder: (context, int index) {
               DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
               return ListTile(
-                title: Text(documentSnapshot['todo']),
+                title: Text(documentSnapshot['firebase']),
                 onTap: () {
                   // Here We Will Add The Update Feature and passed the value 'true' to the is update
                   // feature.
@@ -77,7 +77,10 @@ class MyHomePage extends StatelessWidget {
                   ),
                   onPressed: () {
                     // Here We Will Add The Delete Feature
-                    db.collection('todos').doc(documentSnapshot.id).delete();
+                    db
+                        .collection('crudfirebase')
+                        .doc(documentSnapshot.id)
+                        .delete();
                   },
                 ),
               );
@@ -103,7 +106,7 @@ showBottomSheet(
               border: const OutlineInputBorder(),
               // Used a ternary operator to check if isUpdate is true then display
               // Update Todo.
-              labelText: isUpdate ? 'Update Todo' : 'Add Todo',
+              labelText: isUpdate ? 'Update firebase' : 'Add firebase',
               hintText: 'Enter An Item',
             ),
             onChanged: (String _val) {
@@ -120,11 +123,11 @@ showBottomSheet(
             onPressed: () {
               // Check to see if isUpdate is true then update the value else add the value
               if (isUpdate) {
-                db.collection('todos').doc(documentSnapshot?.id).update({
-                  'todo': value,
+                db.collection('crudfirebase').doc(documentSnapshot?.id).update({
+                  'firebase': value,
                 });
               } else {
-                db.collection('todos').add({'todo': value});
+                db.collection('crudfirebase').add({'firebase': value});
               }
               Navigator.pop(context);
             },
