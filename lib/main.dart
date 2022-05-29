@@ -48,7 +48,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: StreamBuilder(
         // Reading Items form our Database Using the StreamBuilder widget
-        stream: db.collection('firebase').snapshots(),
+        stream: db.collection('crudfirebase').snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -106,7 +106,7 @@ showBottomSheet(
               border: const OutlineInputBorder(),
               // Used a ternary operator to check if isUpdate is true then display
               // Update Todo.
-              labelText: isUpdate ? 'Update firebase' : 'Add firebase',
+              labelText: isUpdate ? 'Update Todo' : 'Add Todo',
               hintText: 'Enter An Item',
             ),
             onChanged: (String _val) {
